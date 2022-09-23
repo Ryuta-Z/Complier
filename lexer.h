@@ -4,7 +4,7 @@
 #include<list>
 #include<fstream>
 using namespace std;
-//鏍囪瘑
+//标识
 class Token
 {
 private:
@@ -28,7 +28,7 @@ public:
     string toString();
     
 };
-//鏍囪瘑绗﹁〃
+//标识符表
 class TokenTable
 {
     private:
@@ -41,7 +41,7 @@ class TokenTable
         bool find(const string &s)const;
         
 };
-//璇嶆硶鍒嗘瀽
+//词法分析
 class Lexer
 {
 private:
