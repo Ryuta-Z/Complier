@@ -52,7 +52,10 @@ bool TokenTable::find(const string &s)const{
 }
 
 /*---------------------------´Ê·¨·ÖÎöÆ÷----------------------*/
-Lexer::Lexer(){currentRow = 1;currentColum = 1; pointer = '$';}
+Lexer::Lexer(istream &f){
+    currentRow = 1;currentColum = 1; pointer = '$';
+    file = f;    
+}
 
 bool Lexer::isDigit(char &ch){return ch >= '0' && ch <= '9';}
 bool Lexer::isCharacter(char &ch){return ch >= 'a' && ch <= 'z';}

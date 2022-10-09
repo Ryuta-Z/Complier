@@ -49,9 +49,9 @@ private:
     int currentColum;
     TokenTable tokTable;
     char pointer;
-
+    istream file;
 public:
-    Lexer();
+    Lexer(istream &);
     pair<string,string> getNextToken(istream &);
     static bool isDigit(char &);
     static bool isCharacter(char &);
