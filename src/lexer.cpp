@@ -1,9 +1,9 @@
-#include"lexer.h"
+#include"../include/lexer.h"
 #include<iostream>
 
 /***宏定义代码段 
  * tips:较长宏定义代码块一定要用大括号装起来不然会出现加法被算两次的怪圈***/
-#define NEXT_CHAR {SourceCodeStream.get(pointer);currentColum++;if(pointer == '\n'){ currentRow++; currentColum = 0;}}
+#define NEXT_CHAR {SourceCodeStream->get(pointer);currentColum++;if(pointer == '\n'){ currentRow++; currentColum = 0;}}
 
 #define GO_TO_STATE_(sta) {state=sta;NEXT_CHAR;continue;} 
 
@@ -12,7 +12,7 @@
                     +to_string(currentRow)\
                     +","+to_string(currentColum)+"]"\
                     +"::标识符不能以关键字为前缀");\
-                    if(!tokTable.find(name))tokTable.add(Token(name,type,""));\
+                    if(!tokTable.find(name)&&type == "标识符")tokTable.add(Token(name,type,""));\
                     return pair<string,string>(type,name);}
 
 #define _RETURN_(type,name) {\
@@ -52,9 +52,9 @@ bool TokenTable::find(const string &s)const{
 }
 
 /*---------------------------词法分析器----------------------*/
-Lexer::Lexer(istream &f){
+Lexer::Lexer(ifstream &file){
     currentRow = 1;currentColum = 1; pointer = '$';
-    file = f;    
+    SourceCodeStream = &file;    
 }
 
 bool Lexer::isDigit(char &ch){return ch >= '0' && ch <= '9';}
@@ -62,7 +62,7 @@ bool Lexer::isCharacter(char &ch){return ch >= 'a' && ch <= 'z';}
 int Lexer::getCurrentColum()const{return currentColum;}
 int Lexer::getCurrentRow()const{return currentRow;}
 TokenTable Lexer::getTokenTable()const{return tokTable;}
-pair<string,string> Lexer::getNextToken(istream &SourceCodeStream){
+pair<string,string> Lexer::getNextToken(){
     int state = 0;
     string StringBuilder;
     /*先判断读头中是否有字符,如果没有先读一个作为起始
@@ -115,7 +115,7 @@ pair<string,string> Lexer::getNextToken(istream &SourceCodeStream){
             //do终态出口
             if(state == 6){EXCEPTION_OR_RETURN("关键字do","do")}
             //while终态出口
-            if(state == 7){EXCEPTION_OR_RETURN("关键词while","while")}
+            if(state == 7){EXCEPTION_OR_RETURN("关键字while","while")}
             //标识符出口
             if(state == 8){
                 if(isDigit(pointer)||isCharacter(pointer))GO_TO_STATE_(8)
@@ -127,9 +127,9 @@ pair<string,string> Lexer::getNextToken(istream &SourceCodeStream){
                 _RETURN_("数字",StringBuilder)
             }
             //分隔符逗号
-            if(state == 23){_RETURN_("分隔符",",")}
+            if(state == 23){_RETURN_("逗号",",")}
             //分隔符;
-            if(state == 22){_RETURN_("分隔符",";")}
+            if(state == 22){_RETURN_("分号",";")}
             //运算符+
             if(state == 9){_RETURN_("连接运算符","+")}
             //运算符*

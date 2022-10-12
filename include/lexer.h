@@ -49,10 +49,10 @@ private:
     int currentColum;
     TokenTable tokTable;
     char pointer;
-    istream file;
+    ifstream *SourceCodeStream;
 public:
-    Lexer(istream &);
-    pair<string,string> getNextToken(istream &);
+    Lexer(ifstream &);
+    pair<string,string> getNextToken();
     static bool isDigit(char &);
     static bool isCharacter(char &);
     int getCurrentRow()const;
