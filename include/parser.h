@@ -4,7 +4,7 @@
 #include<iostream>
 class Parser
 {
-private:
+protected:
     Lexer lexer;
     pair<string,string> input;
     //获取下一个输入

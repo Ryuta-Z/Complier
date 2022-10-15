@@ -8,26 +8,26 @@ using namespace std;
 
 int main(){
     ifstream souceCode("code.ryta",ios::in);
-    Parser parser(souceCode);
-    parser.run();
-    // Lexer lex(souceCode);
-    // try
-    // {
-    //     pair<string,string> token;
-    //     while (token.first!="#")
-    //     {
-    //         token =   lex.getNextToken();
-    //         cout<<"("<<token.first<<","<<token.second<<")"<<endl; 
-    //     }
+    // Parser parser(souceCode);
+    // parser.run();
+    Lexer lex(souceCode);
+    try
+    {
+        pair<string,string> token;
+        while (token.first!="#")
+        {
+            token =   lex.getNextToken();
+            cout<<"("<<token.first<<","<<token.second<<")"<<endl; 
+        }
         
    
         
-    // }
-    // catch(string e)
-    // {
-    //     std::cerr << e << '\n';
-    // }
-    // TokenTable toks = lex.getTokenTable();
-    // toks.show();
+    }
+    catch(string e)
+    {
+        std::cerr << e << '\n';
+    }
+    TokenTable toks = lex.tokTable;
+    toks.show();
     return 0;
 }

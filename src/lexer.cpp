@@ -12,11 +12,11 @@
                     +to_string(currentRow)\
                     +","+to_string(currentColum)+"]"\
                     +"::标识符不能以关键字为前缀");\
-                    if(!tokTable.find(name)&&type == "标识符")tokTable.add(Token(name,type,""));\
+                    if((!tokTable.find(name))&&type == "标识符")tokTable.add(Token(name,type,""));\
                     return pair<string,string>(type,name);}
 
 #define _RETURN_(type,name) {\
-    if(!tokTable.find(name))tokTable.add(Token(name,type,""));\
+    if((!tokTable.find(name))&&type == "标识符")tokTable.add(Token(name,type,""));\
     return pair<string,string>(type,name);} 
 
 
@@ -61,7 +61,6 @@ bool Lexer::isDigit(char &ch){return ch >= '0' && ch <= '9';}
 bool Lexer::isCharacter(char &ch){return ch >= 'a' && ch <= 'z';}
 int Lexer::getCurrentColum()const{return currentColum;}
 int Lexer::getCurrentRow()const{return currentRow;}
-TokenTable Lexer::getTokenTable()const{return tokTable;}
 pair<string,string> Lexer::getNextToken(){
     int state = 0;
     string StringBuilder;
@@ -101,6 +100,8 @@ pair<string,string> Lexer::getNextToken(){
                 if(pointer == ')')GO_TO_STATE_(19)
                 if(pointer == ';')GO_TO_STATE_(22)
                 if(pointer == '"')GO_TO_STATE_(211)
+                if(pointer == '[')GO_TO_STATE_(24)
+                if(pointer == ']')GO_TO_STATE_(25)
             }
             //string终态出口
             if(state == 1){EXCEPTION_OR_RETURN("关键字string","string")}
@@ -164,6 +165,9 @@ pair<string,string> Lexer::getNextToken(){
             if(state == 19){_RETURN_("右括号",")")}
             //字符串出口
             if(state == 21){_RETURN_("字符串",StringBuilder)}
+            //中括号左
+            if(state == 24){_RETURN_("中括号左","[")}
+            if(state == 25){_RETURN_("中括号右","]")}
             if(state == 111){
                 if(pointer == 't')GO_TO_STATE_(112)
                 GO_TO_STATE_(8)

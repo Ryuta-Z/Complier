@@ -20,8 +20,8 @@ private:
 
     void parseP();
     void parseA();
-    void parseL();
-    void parseLp();
+    void parseL(const string &);
+    void parseLp(const string &);
     void parseB();
     void parseBp();
     void parseS();

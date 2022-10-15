@@ -47,17 +47,16 @@ class Lexer
 private:
     int currentRow;
     int currentColum;
-    TokenTable tokTable;
     char pointer;
     ifstream *SourceCodeStream;
 public:
     Lexer(ifstream &);
+    TokenTable tokTable;
     pair<string,string> getNextToken();
     static bool isDigit(char &);
     static bool isCharacter(char &);
     int getCurrentRow()const;
     int getCurrentColum()const;
-    TokenTable getTokenTable()const;
 };
 
 #endif

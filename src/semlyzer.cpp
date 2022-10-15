@@ -24,7 +24,7 @@ void Semlyzer::parseL(const string &type) {
     if(input.first == "标识符"){
         int idx = lexer.tokTable.find(input.second);
         if(idx == -1){throw("syntax_error:未声明标识符\""+input.second+"\"");}
-        lexer.tokTable.updateType(idx,type);
+        // lexer.tokTable.updateType(idx,type);
         parseLp(type);
     }
 }
@@ -35,7 +35,7 @@ void Semlyzer::parseLp(const string &type) {
         Match("标识符");
         int idx = lexer.tokTable.find(input.second);
         if(idx == -1){throw("syntax_error:未声明标识符\""+input.second+"\"");}
-        lexer.tokTable.updateType(idx,type);
+        // lexer.tokTable.updateType(idx,type);
         parseLp(type);
     }else{}
 }
