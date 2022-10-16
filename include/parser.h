@@ -12,6 +12,7 @@ protected:
     //匹配一个终结符
     void Match(const string &);
     /*语法分析子程序*/
+private:
     void parseP();
     void parseA();
     void parseL();
@@ -30,6 +31,7 @@ protected:
     void parseQ();
     void parseG();
     void parseW();
+    void parseH();
 
 public:
     Parser(ifstream &);

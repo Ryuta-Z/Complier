@@ -12,24 +12,32 @@
                     +to_string(currentRow)\
                     +","+to_string(currentColum)+"]"\
                     +"::标识符不能以关键字为前缀");\
-                    if((!tokTable.find(name))&&type == "标识符")tokTable.add(Token(name,type,""));\
+                    if((tokTable.find(name) == -1)&&type == "标识符")tokTable.add(Token(name,"",""));\
                     return pair<string,string>(type,name);}
 
 #define _RETURN_(type,name) {\
-    if((!tokTable.find(name))&&type == "标识符")tokTable.add(Token(name,type,""));\
+    if((tokTable.find(name) == -1)&&type == "标识符")tokTable.add(Token(name,"",""));\
     return pair<string,string>(type,name);} 
 
 
 
 
 /*-----------------标识符---------------*/
-Token::Token(string n,string t,string value){
-    name = n;
-    type = "";
-    value = "";
+Token::Token(string na,string ty,string val){
+    name = na;
+    type = ty;
+    value = val;
+    size = "";
+    content = "";
 }
 string Token::toString(){
     return "("+(name==""?"NULL":name)+","+(type==""?"NULL":type)+","+(value==""?"NULL":value)+")";
+}
+int Token::getSizei() {
+    return stoi(size);
+}
+string Token::getOffset() {
+    return size;
 }
 TokenTable::TokenTable(){}
 void TokenTable::add(const Token &token) {
@@ -44,13 +52,37 @@ void TokenTable::show() {
     }
     
 }
-bool TokenTable::find(const string &s)const{
-    for (auto &t:tokens)
-        if(t.getName() == s)
-            return true;
-    return false;
+int TokenTable::find(const string &s)const{
+    for (int i = 0; i < tokens.size(); i++)
+        if(tokens[i].getName() == s)
+            return i;
+    return -1;
+}
+void TokenTable::updateValue(int i,const string &value) {
+    tokens[i].setValue(value);
 }
 
+void TokenTable::updateType(int i,const string &type) {
+    tokens[i].setType(type);
+}
+
+void TokenTable::updateSize(int i,const string &size) {
+    tokens[i].setSize(size);
+}
+
+void TokenTable::updateContent(int i, const string &content) {
+    tokens[i].setContent(content);
+}
+
+int TokenTable::getSize(int i) {
+    return stoi(tokens[i].getSize());
+}
+Token TokenTable::getToken(int i) {
+    return tokens[i];
+}
+string TokenTable::getType(int i){
+    return tokens[i].getType();
+}
 /*---------------------------词法分析器----------------------*/
 Lexer::Lexer(ifstream &file){
     currentRow = 1;currentColum = 1; pointer = '$';

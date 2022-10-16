@@ -53,6 +53,7 @@ void Parser::parseA() {
 
 void Parser::parseL() {
     Match("标识符");
+    parseH();
     parseLp();
 }
 
@@ -60,6 +61,7 @@ void Parser::parseLp() {
     if(input.first == "逗号"){
         Match("逗号");
         Match("标识符");
+        parseH();
         parseLp();
     }
     // if(input.first != "分号")
@@ -94,6 +96,7 @@ void Parser::parseS() {
 
 void Parser::parseE() {
     Match("标识符");
+    parseH();
     Match("赋值运算符");
     parseX();
 }
@@ -147,8 +150,10 @@ void Parser::parseTp() {
 void Parser::parseD() {
     if(input.first == "字符串")
         Match("字符串");
-    if(input.first == "标识符")
+    if(input.first == "标识符"){
         Match("标识符");
+        parseH();
+    }
     if(input.first == "左括号"){
         Match("左括号");
         parseX();
@@ -173,5 +178,13 @@ void Parser::parseW() {
     Match("关键字start");
     parseB();
     Match("关键字end");
+}
+
+void Parser::parseH() {
+    if(input.first == "中括号左"){
+        Match("中括号左");
+        Match("数字");
+        Match("中括号右");
+    }
 }
 

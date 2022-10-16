@@ -1,7 +1,7 @@
 #ifndef LEXCIAL_H
 #define LEXCIAL_H
 #include<string>
-#include<list>
+#include<vector>
 #include<fstream>
 using namespace std;
 //标识
@@ -11,9 +11,10 @@ private:
     string name;
     string value;
     string type;
+    string size; //数组长度
+    string content; //数组类型
 public:
     Token();
-
     string getName() const { return name; }
     void setName(const string &name_) { name = name_; }
 
@@ -26,19 +27,33 @@ public:
     void setValue(const string &value_) { value = value_; }
     
     string toString();
-    
+
+    string getContent() const { return content; }
+    void setContent(const string &content_) { content = content_; }
+
+    string getSize() const { return size; }
+    void setSize(const string &size_) { size = size_; }
+    int getSizei();
+    string getOffset();
 };
 //标识符表
 class TokenTable
 {
     private:
     
-        list<Token> tokens;
+        vector<Token> tokens;
     public:
         TokenTable();
         void add(const Token &);
         void show();
-        bool find(const string &s)const;
+        int find(const string &) const;
+        void updateValue(int ,const string &);
+        void updateType(int ,const string &);
+        void updateSize(int ,const string &);
+        void updateContent(int, const string &);
+        int getSize(int);
+        Token getToken(int);
+        string getType(int i);
         
 };
 //词法分析

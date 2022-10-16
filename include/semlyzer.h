@@ -16,8 +16,9 @@ struct metadata
 class Semlyzer:protected Parser 
 {
 private:
-    list<metadata> datas;
-
+    vector<metadata> datas;
+    vector<Token> tempvar;
+    int NXQ;
     void parseP();
     void parseA();
     void parseL(const string &);
@@ -28,17 +29,26 @@ private:
     void parseE();
     void parseF();
     void parseR();
-    void parseX();
-    void parseXp();
-    void parseT();
-    void parseTp();
-    void parseD();
-    void parseQ();
+    Token parseX();
+    Token parseXp(const Token &);
+    Token parseT();
+    Token parseTp(const Token &);
+    Token parseD();
+    Token parseQ();
     void parseG();
-    void parseW();    
+    void parseW(); 
+    Token parseH(const string &type);
+protected:
+    void generate(const string &,const string &,const string &,const string &);
+    string SyntaxErrorGener(const string &type);
+    Token getTempVar();
+    void BackPath(const int &,const int &); 
 public:
     Semlyzer(ifstream &file);
-    
+    void showMidCode();
+    string getRow();
+    string getColum();
+    void Go();   
 };
 
     
