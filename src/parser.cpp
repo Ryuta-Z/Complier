@@ -9,24 +9,42 @@ void Parser::run() {
 void Parser::getNextInput() {
     input = lexer.getNextToken();
 }
+
+Color setColor(DWORD fc, DWORD bg){
+    return {fc % 16,bg % 16*16};
+}
+
+template<typename T1,typename T2>
+std::basic_ostream<T1,T2>& operator<<(std::basic_ostream<T1,T2> &_os,Color col){
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(handle,col.fc|col.bg);
+    return _os;
+}
+
+template<typename T1,typename T2>
+std::basic_ostream<T1,T2>& cr(std::basic_ostream<T1,T2> &_os){
+    _os.put('\n');
+    _os.flush();
+    return _os;
+}
 void Parser::Match(const string &s) {
     if(input.first == ""){
         getNextInput();
-        cout<<"[词]识别到单词:"<<"("
+        cout<<setColor(9)<<"[词]识别到单词:"<<"("
         <<input.first<<","
         <<input.second
-        <<")"<<endl;
+        <<")"<<cr;
     }
     if(input.first == s){
-        cout<<"[语]成功匹配到:"<<"("
+        cout<<setColor(2)<<"[语]成功匹配到:"<<"("
         <<input.first<<","
         <<input.second
         <<")"<<endl;
         getNextInput();
-        cout<<"[词]识别到单词:"<<"("
+        cout<<setColor(9)<<"[词]识别到单词:"<<"("
         <<input.first+","
         <<input.second
-        <<")"<<endl;
+        <<")"<<cr;
         return;
     }
     throw("[语]匹配失败!,target:"
@@ -39,7 +57,6 @@ void Parser::Match(const string &s) {
     );
 
 }
-
 void Parser::parseP() {
     parseA();
     Match("分号");

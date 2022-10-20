@@ -8,19 +8,21 @@ using namespace std;
 
 
 int main(){
-    ifstream souceCode("code.ryta",ios::in);
+    ifstream souceCode("source.ryu",ios::in);
     Semlyzer semer(souceCode);
     try
     {
             semer.Go();
+            cout<<setColor(2) << "analyze success……"<<cr;
     }
     catch(string& e)
     {
-        std::cerr << e << '\n';
+        std::cerr<<setColor(12)<< e << '\n';
+        return 0;
     }
     
 
-    cout << "-----------中间代码---------------"<<endl;
+    cout <<setColor(4)<< "-----------中间代码---------------"<<endl;
     semer.showMidCode();
     // Parser parser(souceCode);
     // parser.run();

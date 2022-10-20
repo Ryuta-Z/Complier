@@ -101,12 +101,11 @@ pair<string,string> Lexer::getNextToken(){
     */
     if(pointer == '$') NEXT_CHAR;
     //跳过空格
-    while(pointer == ' '||pointer == '\n'){
+    while((!SourceCodeStream->eof()) && (pointer == ' '||pointer == '\n')){
         NEXT_CHAR;
-        if(SourceCodeStream->eof())break;
     }
-    
-    while (!SourceCodeStream->eof())
+
+    while ((!SourceCodeStream->eof()))
     {       
             if(isCharacter(pointer)||isDigit(pointer)||pointer == '"')StringBuilder.push_back(pointer);
             //初始状态
@@ -130,11 +129,19 @@ pair<string,string> Lexer::getNextToken(){
                 if(pointer == '=')GO_TO_STATE_(16)
                 if(pointer == '(')GO_TO_STATE_(18)
                 if(pointer == ')')GO_TO_STATE_(19)
-                if(pointer == ';')GO_TO_STATE_(22)
                 if(pointer == '"')GO_TO_STATE_(211)
                 if(pointer == '[')GO_TO_STATE_(24)
                 if(pointer == ']')GO_TO_STATE_(25)
+                if(pointer == ';'){NEXT_CHAR; _RETURN_("分号",";")} //已重构
             }
+            //分隔符逗号
+            if(state == 23){_RETURN_("逗号",",")}
+            //分隔符;(废弃)
+            if(state == 22){_RETURN_("分号",";")}
+            //运算符+
+            if(state == 9){_RETURN_("连接运算符","+")}
+            //运算符*
+            if(state == 10){_RETURN_("重复运算符","*")}
             //string终态出口
             if(state == 1){EXCEPTION_OR_RETURN("关键字string","string")}
             //start终态出口
@@ -159,14 +166,7 @@ pair<string,string> Lexer::getNextToken(){
                 if(isDigit(pointer))GO_TO_STATE_(20)
                 _RETURN_("数字",StringBuilder)
             }
-            //分隔符逗号
-            if(state == 23){_RETURN_("逗号",",")}
-            //分隔符;
-            if(state == 22){_RETURN_("分号",";")}
-            //运算符+
-            if(state == 9){_RETURN_("连接运算符","+")}
-            //运算符*
-            if(state == 10){_RETURN_("重复运算符","*")}
+
             //关系运算符<
             if(state == 11){
                 if(pointer == '=')GO_TO_STATE_(12)

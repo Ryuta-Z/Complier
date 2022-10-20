@@ -9,7 +9,7 @@ Semlyzer::Semlyzer(ifstream &file)
 void Semlyzer::showMidCode() {
     for (int i = 0; i < datas.size(); i++)
     {
-        cout << "(" << i
+        cout <<setColor(5)<< "(" << i
             << ")" << "("
             << datas[i].what<<","
             << datas[i].leftvalue << ","
