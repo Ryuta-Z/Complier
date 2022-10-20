@@ -103,10 +103,10 @@ pair<string,string> Lexer::getNextToken(){
     //Ìø¹ý¿Õ¸ñ
     while(pointer == ' '||pointer == '\n'){
         NEXT_CHAR;
+        if(SourceCodeStream->eof())break;
     }
     
-
-    while (pointer != '#')
+    while (!SourceCodeStream->eof())
     {       
             if(isCharacter(pointer)||isDigit(pointer)||pointer == '"')StringBuilder.push_back(pointer);
             //³õÊ¼×´Ì¬

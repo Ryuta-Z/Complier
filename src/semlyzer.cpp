@@ -70,7 +70,6 @@ void Semlyzer::parseA() {
 
 void Semlyzer::parseL(const string &type) {
     if(input.first == "±êÊ¶·û"){
-        cout << input.second;
         int idx = lexer.tokTable.find(input.second);
         Match("±êÊ¶·û");
         lexer.tokTable.updateContent(idx,type);
@@ -137,10 +136,10 @@ void Semlyzer::parseF() {
     Match("¹Ø¼ü×Öif");
     Match("×óÀ¨ºÅ");
     Token Q = parseQ();
+    Match("ÓÒÀ¨ºÅ");
     generate("jnz",Q.getName(),"null",to_string(NXQ+2));
     int Exit1 = NXQ;
     generate("j","null","null","");
-    Match("ÓÒÀ¨ºÅ");
     parseG();
     int Exit2 = NXQ;
     generate("j","null","null","");
@@ -157,8 +156,8 @@ void Semlyzer::parseR() {
     Match("¹Ø¼ü×Öwhile");
     Match("×óÀ¨ºÅ");
     Token Q = parseQ();
-    generate("jnz",Q.getName(),"null",to_string(position));
     Match("ÓÒÀ¨ºÅ");
+    generate("jnz",Q.getName(),"null",to_string(position));
 }
 
 Token Semlyzer::parseX() {
@@ -174,9 +173,8 @@ Token Semlyzer::parseXp(const Token &T) {
         Xp1.setType(T1.getType());
         generate("+",T.getName(),T1.getName(),Xp1.getName());
         return parseXp(Xp1);
-    }else
-        return T;
-    return Token("error_in_Xp()","","");
+    }
+    return T;
 }
 
 Token Semlyzer::parseT() {
@@ -192,10 +190,8 @@ Token Semlyzer::parseTp(const Token &D) {
         Tp.setType(D.getType());
         generate("*",D.getName(),name,Tp.getName());
         return parseTp(Tp);
-    }else{
-        return D;
     }
-    return Token("error_in_Tp()","","");
+    return D;
 }
 
 Token Semlyzer::parseD() {

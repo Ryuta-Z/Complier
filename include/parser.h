@@ -37,5 +37,12 @@ public:
     Parser(ifstream &);
     void run();
 };
-
+//输出颜色改变
+//设置（字体色，背景色）
+struct Color{DWORD fc; DWORD bg;};
+Color setColor(DWORD  = 7, DWORD  = 0);
+template<typename T1,typename T2>
+std::basic_ostream<T1,T2>& operator<<(std::basic_ostream<T1,T2> &,Color);
+template<typename T1,typename T2>
+std::basic_ostream<T1,T2>& cr(std::basic_ostream<T1,T2> &);
 #endif

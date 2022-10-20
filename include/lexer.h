@@ -3,6 +3,8 @@
 #include<string>
 #include<vector>
 #include<fstream>
+#include<windows.h>
+#include<iostream>
 using namespace std;
 //ฑ๊สถ
 class Token

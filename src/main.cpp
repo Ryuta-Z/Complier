@@ -10,7 +10,16 @@ using namespace std;
 int main(){
     ifstream souceCode("code.ryta",ios::in);
     Semlyzer semer(souceCode);
-    semer.Go();
+    try
+    {
+            semer.Go();
+    }
+    catch(string& e)
+    {
+        std::cerr << e << '\n';
+    }
+    
+
     cout << "-----------ÖÐ¼ä´úÂë---------------"<<endl;
     semer.showMidCode();
     // Parser parser(souceCode);
