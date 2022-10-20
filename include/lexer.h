@@ -1,5 +1,6 @@
-#ifndef LEXCIAL_H
-#define LEXCIAL_H
+#ifndef LEXER_H
+#define LEXER_H
+
 #include<string>
 #include<vector>
 #include<fstream>
@@ -76,4 +77,5 @@ public:
     int getCurrentColum()const;
 };
 
-#endif
+
+#endif // LEXER_H
