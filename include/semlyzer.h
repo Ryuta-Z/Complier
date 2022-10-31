@@ -48,7 +48,9 @@ public:
     void showMidCode();
     string getRow();
     string getColum();
-    void Go();   
+    void Go();
+    void writeData(ofstream &);
+    void writeDebugData(ofstream &file);   
 };
 
     

@@ -7,6 +7,7 @@ class Parser
 protected:
     Lexer lexer;
     pair<string,string> input;
+    vector<string> productionSequence;
     //获取下一个输入
     void getNextInput();
     //匹配一个终结符
@@ -36,6 +37,7 @@ private:
 public:
     Parser(ifstream &);
     void run();
+    void push(const string &);
 };
 //输出颜色改变
 //设置（字体色，背景色）

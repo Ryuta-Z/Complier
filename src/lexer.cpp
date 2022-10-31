@@ -83,6 +83,9 @@ Token TokenTable::getToken(int i) {
 string TokenTable::getType(int i){
     return tokens[i].getType();
 }
+int TokenTable::length()const {
+    return tokens.size();
+}
 /*---------------------------词法分析器----------------------*/
 Lexer::Lexer(ifstream &file){
     currentRow = 1;currentColum = 1; pointer = '$';
@@ -93,6 +96,17 @@ bool Lexer::isDigit(char &ch){return ch >= '0' && ch <= '9';}
 bool Lexer::isCharacter(char &ch){return ch >= 'a' && ch <= 'z';}
 int Lexer::getCurrentColum()const{return currentColum;}
 int Lexer::getCurrentRow()const{return currentRow;}
+//保存二元式版本
+pair<string,string> Lexer::getNextTokenAndSave() {
+    pair<string,string> temp = getNextToken();
+    data.push_back(temp);
+    return temp;
+}
+void Lexer::writeDebugData(ofstream &file) {
+    for(auto &c:data){
+        file << "(" << c.first << "," << c.second << ")" << endl;
+    }
+}
 pair<string,string> Lexer::getNextToken(){
     int state = 0;
     string StringBuilder;
@@ -227,7 +241,7 @@ pair<string,string> Lexer::getNextToken(){
                 if(pointer == ' '){StringBuilder.push_back(' ');GO_TO_STATE_(211)} //空格保留
                 if(pointer == ';')throw("lexcial_error_in["
                     +to_string(currentRow)
-                    +","+to_string(currentColum/2)+"]"
+                    +","+to_string(currentColum)+"]"
                     +"::字符串缺失右引号");
                 if(pointer == '"')GO_TO_STATE_(21)
             }

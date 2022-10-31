@@ -57,7 +57,7 @@ class TokenTable
         int getSize(int);
         Token getToken(int);
         string getType(int i);
-        
+        int length()const;
 };
 //´Ê·¨·ÖÎö
 class Lexer
@@ -67,6 +67,7 @@ private:
     int currentColum;
     char pointer;
     ifstream *SourceCodeStream;
+    vector<pair<string,string>> data;
 public:
     Lexer(ifstream &);
     TokenTable tokTable;
@@ -75,6 +76,8 @@ public:
     static bool isCharacter(char &);
     int getCurrentRow()const;
     int getCurrentColum()const;
+    pair<string,string> getNextTokenAndSave();
+    void writeDebugData(ofstream &file);
 };
 
 
